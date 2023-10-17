@@ -1,5 +1,7 @@
 package no.hvl.dat100.prosjekt.modell;
 
+import java.util.ArrayList;
+
 import no.hvl.dat100.prosjekt.TODO;
 import no.hvl.dat100.prosjekt.kontroll.dommer.Regler;
 
@@ -14,20 +16,18 @@ public class KortSamling {
 
 	private final int MAKS_KORT = 4 * Regler.MAKS_KORT_FARGE;
 
-	private Kort[] samling;
-	private int antall;
+	Kort[] samling;
+	int antall;
 
 	/**
 	 * Oppretter en tom Kortsamling med plass til MAKS_KORT (hele kortstokken).
 	 */
-	public KortSamling() {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.constructor("KortSamling"));
-		// TODO - END
-	}
-
+    public KortSamling() {
+        // TODO - START
+        this.samling = new Kort[MAKS_KORT];
+        this.antall = 0;
+        // TODO - END
+    }
 	/**
 	 * Returnerer en tabell med kortene i samlinga. Tabellen trenger ikke være
 	 * full. Kortene ligger sammenhengende fra starten av tabellen. Kan få
@@ -50,11 +50,7 @@ public class KortSamling {
 	 */
 	public int getAntalKort() {
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - END
+		return antall;
 	}
 	
 	/**
@@ -63,12 +59,9 @@ public class KortSamling {
 	 * @return true om samlinga er tom, false ellers.
 	 */
 	public boolean erTom() {
-		
-		// TODO - START
-				
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - END
+	    // TODO - START
+	    return antall == 0;
+	    // TODO - END
 	}
 
 	/**
@@ -78,12 +71,14 @@ public class KortSamling {
 	 *            er kortet som skal leggast til.
 	 */
 	public void leggTil(Kort kort) {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		// TODO - END
-		
+	    // TODO - START
+	    if (antall < MAKS_KORT) {
+	        samling[antall] = kort;
+	        antall++;
+	    } else {
+	        throw new IllegalStateException("Kortsamlingen er allerede full.");
+	    }
+	    // TODO - END
 	}
 	
 	/**
@@ -91,23 +86,23 @@ public class KortSamling {
 	 * slik at de normalt må stokkes før bruk.
 	 */
 	public void leggTilAlle() {
-		
-		// TODO - START
-		// Husk: bruk Regler.MAKS_KORT_FARGE for å få antall kort per farge
-		
-		throw new UnsupportedOperationException(TODO.method());
-		// TODO - END
+	    // TODO - START
+	    for (Kortfarge farge : Kortfarge.values()) {
+	        for (int verdi = 1; verdi <= Regler.MAKS_KORT_FARGE; verdi++) {
+	            Kort kort = new Kort(farge, verdi);
+	            leggTil(kort);
+	        }
+	    }
+	    // TODO - END
 	}
 
 	/**
 	 * Fjerner alle korta fra samlinga slik at den blir tom.
 	 */
 	public void fjernAlle() {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		// TODO - END
+	    // TODO - START
+	    antall = 0;
+	    // TODO - END
 	}
 	
 	/**
@@ -117,13 +112,13 @@ public class KortSamling {
 	 *         null.
 	 */
 	public Kort seSiste() {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - END
-		
+	    // TODO - START
+	    if (antall > 0) {
+	        return samling[antall - 1];
+	    } else {
+	        return null;
+	    }
+	    // TODO - END
 	}
 
 	/**
@@ -133,12 +128,16 @@ public class KortSamling {
 	 *         null.
 	 */
 	public Kort taSiste() {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - END
+	    // TODO - START
+	    if (antall > 0) {
+	        Kort sisteKort = samling[antall - 1];
+	        samling[antall - 1] = null;
+	        antall--;
+	        return sisteKort;
+	    } else {
+	        return null;
+	    }
+	    // TODO - END
 	}
 	
 	/**
@@ -149,13 +148,14 @@ public class KortSamling {
 	 * @return true om kortet finst i samlinga, false ellers.
 	 */
 	public boolean har(Kort kort) {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		// return false;
-		// TODO - END
-		
+	    // TODO - START
+	    for (int i = 0; i < antall; i++) {
+	        if (samling[i].equals(kort)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	    // TODO - END
 	}
 
 	/**
@@ -169,12 +169,19 @@ public class KortSamling {
 	 */
 			 
 	public boolean fjern(Kort kort) {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - END
+	    // TODO - START
+	    for (int i = 0; i < antall; i++) {
+	        if (samling[i].equals(kort)) {
+	            for (int j = i; j < antall - 1; j++) {
+	                samling[j] = samling[j + 1];
+	            }
+	            samling[antall - 1] = null;
+	            antall--;
+	            return true;
+	        }
+	    }
+	    return false;
+	    // TODO - END
 	}
 
 	/**
@@ -184,13 +191,28 @@ public class KortSamling {
 	 *         som i kortsamlinga.
 	 */
 	public Kort[] getAllekort() {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - END
-	
+	    // TODO - START
+	    Kort[] alleKort = new Kort[antall];
+	    System.arraycopy(samling, 0, alleKort, 0, antall);
+	    return alleKort;
+	    // TODO - END
 	}
+	
+	public ArrayList<Kort> toArrayList() {
+	    ArrayList<Kort> kortList = new ArrayList<>();
+	    for (int i = 0; i < antall; i++) {
+	        kortList.add(getKort(i));
+	    }
+	    return kortList;
+	}
+	
+	public Kort getKort(int index) {
+	    if (index >= 0 && index < antall) {
+	        return samling[index];
+	    } else {
+	        throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + antall);
+	    }
+	}
+
 	
 }
